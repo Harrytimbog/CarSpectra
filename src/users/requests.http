@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
     "email": "bounce@gmail.com",
-    "password": "labalbq"
+    "password": "labalqbq"
 }
 
 
@@ -38,3 +38,4 @@ Content-Type: application/json
 
 #### Delete a user with a given id
 DELETE http://localhost:3000/auth/5
+
