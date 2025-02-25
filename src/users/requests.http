@@ -8,6 +8,17 @@ Content-Type: application/json
     "password": "labalqbq"
 }
 
+###  Sign In
+
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+    "email": "bounce@gmail.com",
+    "password": "labalbq"
+}
+
+
 ### Find a particular user
 GET http://localhost:3000/auth/4
 
