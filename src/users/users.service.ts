@@ -25,8 +25,27 @@ export class UsersService {
     return this.repo.find({ where: { email } });
   }
 
-  update() { }
+  // update a user
+  async update(id: number, attrs: Partial<User>) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('user not found');
+    }
+    // update the user with the new attributes
+    Object.assign(user, attrs);
+    // save the user to the database ( replace the old values with the new ones from attrs)
+    return this.repo.save(user);
+  }
 
-  remove() { }
+  // delete a user
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    // remove the user from the database
+    return this.repo.remove(user);
+  }
 
 }
