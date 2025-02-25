@@ -15,4 +15,18 @@ export class UsersService {
     // save the user to the database
     return this.repo.save(user);
   }
+
+  // find a user by id
+  findOne(id: number) {
+    return this.repo.findOneBy({ id });
+  }
+  // find a user by email
+  find(email: string) {
+    return this.repo.find({ where: { email } });
+  }
+
+  update() { }
+
+  remove() { }
+
 }
