@@ -14,6 +14,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthService } from './auth.service';
 
 
 @Controller('auth')
@@ -21,12 +22,14 @@ import { UserDto } from './dtos/user.dto';
 
 export class UsersController {
   // inject the user service in the controller (dependency injection)
-  constructor(private usersService: UsersService) { }
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService) { }
 
   // create a new user
   @Post('/signup')
   createUser(@Body() body: CreateUserDto) {
-    this.usersService.create(body.email, body.password);
+    return this.authService.signUp(body.email, body.password);
   }
 
   // find a user by id
