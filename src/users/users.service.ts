@@ -18,6 +18,10 @@ export class UsersService {
 
   // find a user by id
   findOne(id: number) {
+    if (!id) {
+      throw new NotFoundException('user not found');
+      return null;
+    }
     return this.repo.findOneBy({ id });
   }
   // find a user by email

@@ -43,6 +43,18 @@ export class UsersController {
     return user;
   }
 
+  // Get Current User
+  @Get('/currentUser')
+  getCurrentUser(@Session() session: any) {
+    return this.usersService.findOne(session.userId);
+  }
+
+  // Sign Out
+  @Post('/signout')
+  signOut(@Session() session: any) {
+    session.userId = null;
+  }
+
   // find a user by id
   @Get('/:id')
   async findUser(@Param('id') id: string) {
