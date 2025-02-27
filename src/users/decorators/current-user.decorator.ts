@@ -5,7 +5,10 @@ import {
 } from "@nestjs/common";
 
 export const CurrentUser = createParamDecorator(
-  (data: any, context: ExecutionContext) => {
-    return 'hi there';
+  // data is the value passed to the decorator
+  (data: never, context: ExecutionContext) => {
+    const request = context.switchToHttp().getRequest();
+    console.log(request.session.userId);
+    return request.currentUser;
   }
 )
