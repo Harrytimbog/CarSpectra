@@ -12,11 +12,18 @@ describe('AuthService', () => {
 
 
   beforeEach(async () => {
-    // Create a test copy of the users service
+    // Create a test copy of the users servic
+    const users: User[] = [];
     fakeUsersService = {
-      find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password } as User),
+      find: (email: string) => {
+        const filteredUsers = users.filter(user => user.email === email);
+        return Promise.resolve(filteredUsers);
+      },
+      create: (email: string, password: string) => {
+        const user = { id: Math.floor(Math.random() * 9999), email, password } as User;
+        users.push(user);
+        return Promise.resolve(user);
+      }
     };
 
 
@@ -54,15 +61,27 @@ describe('AuthService', () => {
   // Add test to ensure that signup email is unique
   it('throws error if user signs up with email that is in use', async () => {
     // Create a test copy of the users service
-    fakeUsersService.find = () => Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
+    await service.signUp('labalab@gmail.com', 'lalalala');
     await expect(service.signUp('labalab@gmail.com', 'lalalala')).rejects.toThrow(BadRequestException);
   });
 
   // Add test to ensure that signin works
   it('throws if signin is called with an unused email', async () => {
     // find the user and ensure that the user is not found
-    fakeUsersService.find = () => Promise.resolve([]);
     await expect(service.signIn('labala@gmail.com', 'lalalala')).rejects.toThrow(NotFoundException);
+  });
+
+
+  it('throws if an invalid password is provided', async () => {
+    await service.signUp('gute@gmail.com', 'ganusi');
+
+    await expect(service.signIn('gute@gmail.com', 'gute')).rejects.toThrow(BadRequestException);
+  });
+
+  it('returns a user if correct password is provided', async () => {
+    await service.signUp('ade@gmail.com', '123456');
+    const user = await service.signIn('ade@gmail.com', '123456');
+    expect(user).toBeDefined();
   });
 });
 
