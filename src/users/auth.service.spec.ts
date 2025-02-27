@@ -3,25 +3,52 @@ import { AuthService } from './auth.service';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
 
-it('can create an instance of auth service', async () => {
-  // Create a test copy of the users service
-  const fakeUsersService: Partial<UsersService> = {
-    find: () => Promise.resolve([]),
-    create: (email: string, password: string) =>
-      Promise.resolve({ id: 1, email, password } as User),
-  };
+describe('AuthService', () => {
+
+  let service: AuthService;
+
+  beforeEach(async () => {
+    // Create a test copy of the users service
+    const fakeUsersService: Partial<UsersService> = {
+      find: () => Promise.resolve([]),
+      create: (email: string, password: string) =>
+        Promise.resolve({ id: 1, email, password } as User),
+    };
 
 
-  const module = await Test.createTestingModule({
-    providers: [
-      AuthService,
-      {
-        provide: UsersService,
-        useValue: fakeUsersService
-      },
-    ],
-  }).compile();
+    const module = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        {
+          provide: UsersService,
+          useValue: fakeUsersService
+        },
+      ],
+    }).compile();
 
-  const service = module.get<AuthService>(AuthService);
-  expect(service).toBeDefined();
+    service = module.get<AuthService>(AuthService);
+  });
+
+  it('can create an instance of auth service', async () => {
+    // Create a test copy of the users service
+    const fakeUsersService: Partial<UsersService> = {
+      find: () => Promise.resolve([]),
+      create: (email: string, password: string) =>
+        Promise.resolve({ id: 1, email, password } as User),
+    };
+
+
+    const module = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        {
+          provide: UsersService,
+          useValue: fakeUsersService
+        },
+      ],
+    }).compile();
+
+    const service = module.get<AuthService>(AuthService);
+    expect(service).toBeDefined();
+  });
 });
