@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { User } from './users/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -8,6 +8,7 @@ import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { Report } from './reports/report.entity';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -19,6 +20,15 @@ import { Report } from './reports/report.entity';
     ReportsModule,
     UsersModule],
   controllers: [AppController, UsersController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_PIPE,
+      // This is a global pipe that will be applied to all routes even e2e tests
+      useValue: new ValidationPipe({
+        whitelist: true,
+      }),
+    },
+  ],
 })
 export class AppModule { }
