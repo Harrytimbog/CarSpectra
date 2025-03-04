@@ -9,7 +9,7 @@ import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { Report } from './reports/report.entity';
 import { APP_PIPE } from '@nestjs/core';
-import cookieSession from 'cookie-session';
+const cookieSession = require('cookie-session');
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -32,6 +32,7 @@ import cookieSession from 'cookie-session';
     },
   ],
 })
+
 export class AppModule {
   // This is a middleware that will be applied to all routes
   configure(consumer: MiddlewareConsumer) {
