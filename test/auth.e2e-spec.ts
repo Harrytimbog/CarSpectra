@@ -28,4 +28,23 @@ describe('Authentication System', () => {
         expect(email).toEqual(email);
       })
   });
+
+  it('signup as a new user then get the currently logged in user', async () => {
+    const email = 'tontolo@gmail.com';
+    const response = await request(app.getHttpServer())
+      .post('/auth/signup')
+      .send({ email, password: '123456' })
+      .expect(201);
+
+    const cookie = response.headers['set-cookie'];
+    expect(cookie).toBeDefined();
+
+    const userResponse = await request(app.getHttpServer())
+      .get('/auth/currentUser')
+      .set('Cookie', cookie)
+      .expect(200);
+
+    const { email: userEmail } = userResponse.body;
+    expect(userEmail).toEqual(email);
+  });
 });
