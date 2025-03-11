@@ -40,6 +40,7 @@ export class ReportsService {
       .andWhere('lng - :lng between -5 and 5', { lng })
       .andWhere('lat - :lat between -5 and 5', { lat })
       .andWhere('year - :year between -3 and 3', { year })
+      .andWhere('approved IS TRUE')
       .orderBy('mileage - :mileage', 'DESC')
       .setParameters({ mileage })
       .limit(3)
