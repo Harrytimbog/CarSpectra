@@ -29,8 +29,8 @@ export class ReportsController {
   }
 
   // Get a list of all reports (Admin only)
-  @Get('')
+  @Get()
   getEstimates(@Query() query: GetEstimateDto) {
-    console.log(query)
+    return this.reportsService.createEstimate(query);
   }
 }
