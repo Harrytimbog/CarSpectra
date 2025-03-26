@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { ReportsModule } from './reports/reports.module';
 import { UsersModule } from './users/users.module';
 import { APP_PIPE } from '@nestjs/core';
-import { AppDataSource } from './ormconfig'; // <-- important
+import { dataSourceOptions } from '../db/data-source';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -16,7 +16,8 @@ const cookieSession = require('cookie-session');
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     // ✅ Provide connection options from AppDataSource
-    TypeOrmModule.forRoot(AppDataSource.options),
+    // TypeOrmModule.forRoot(AppDataSource.options),
+    TypeOrmModule.forRoot(dataSourceOptions),
     ReportsModule,
     UsersModule,
   ],
