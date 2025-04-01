@@ -32,11 +32,16 @@ switch (process.env.NODE_ENV) {
     break;
 
   case 'production':
-    // Object.assign(dbOptions, {
-    //   database: process.env.DB_NAME || 'db.sqlite',
-    //   entities: ['dist/**/*.entity.js'],
-    //   migrations: ['dist/db/migrations/*.js'],
-    // });
+    Object.assign(dbOptions, {
+      type: 'postgres',
+      database: process.env.DATABASE_URL,
+      migrationRun: true,
+      entities: ['dist/**/*.entity.js'],
+      migrations: ['dist/db/migrations/*.js'],
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
     break;
 
   default:
