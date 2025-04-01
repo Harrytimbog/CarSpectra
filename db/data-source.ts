@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 let dbOptions: DataSourceOptions = {
@@ -19,10 +21,13 @@ switch (process.env.NODE_ENV) {
 
   case 'test':
     Object.assign(dbOptions, {
+      type: 'sqlite',
       database: 'test.sqlite',
-      entities: ['dist/**/*.entity.js'],
-      migrations: ['dist/db/migrations/*.js'],
-      migrationsRun: true,
+      entities: ['src/**/*.entity.ts'],
+      migrations: ['src/db/migrations/*.ts'],
+      synchronize: true, // <-- allow automatic schema sync in test
+      migrationsRun: false, // <-- unnecessary when synchronize is true
+      dropSchema: true,     // <-- optional but good to start fresh
     });
     break;
 
